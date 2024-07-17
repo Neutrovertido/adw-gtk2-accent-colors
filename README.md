@@ -3,4 +3,10 @@ To use this project, head to the gtk2 folder and select between the dark and lig
   
 This should also work with QT apps if using qt5ct with the qt5-style-plugins set to `gtk2`.  
 ![clementine](/img/clementine.png)
-*> Clementine (a QT app) properly using red accent color from gtk2*
+> Clementine (a QT app) properly using red accent color from gtk2
+---
+### Credits:
+* lassekongo83 (for creating adw-gtk3)
+* GradienceTeam (for creating Gradience)
+* demetrisk03 (for creating the gnome accent colors extension)
+* eylles (for creating the adw-gtk2-colorizer tool)
