@@ -2,18 +2,24 @@
 
 # Check if the user provided a parameter
 if [ -z "$1" ]; then
-  echo "Usage: $0 <gradience_file.json>"
-  exit 1
+	echo "Usage: $0 <gradience_file.json>"
+	exit 1
 fi
 
-# Define the target directories
-TARGET_DIR1="/usr/share/themes/adw-gtk3/"
-TARGET_DIR2="/usr/share/themes/adw-gtk3-dark/"
-
-# Check if adw-gtk3 is located inside /usr/share/themes/
-if [ ! -d "$TARGET_DIR1" ] || [ ! -d "$TARGET_DIR2" ]; then
-  echo "This script only supports adw-gtk3 installed in the /usr/share/themes/ directory!"
-  exit 1
+# Define the target directories and
+# check if adw-gtk3 is located inside the target directory
+if [ "$EUID" -eq 0 ] && [ -d "/usr/share/themes/adw-gtk3/" ] && [ -d "/usr/share/themes/adw-gtk3-dark/" ]; then
+	TARGET_DIR1="/usr/share/themes/adw-gtk3/"
+	TARGET_DIR2="/usr/share/themes/adw-gtk3-dark/"
+elif [ -d "~/.themes/adw-gtk3/" ] && [ -d "~/.themes/adw-gtk3-dark/" ]; then
+	TARGET_DIR1="~/.themes/adw-gtk3/"
+	TARGET_DIR2="~/.themes/adw-gtk3-dark/"
+elif [ -d "~/.local/share/themes/adw-gtk3/" ] && [ -d "~/.local/share/themes/adw-gtk3-dark/" ]; then
+	TARGET_DIR1="~/.local/share/tahemes/adw-gtk3/"
+	TARGET_DIR2="~/.local/share/themes/adw-gtk3-dark/"
+else
+	echo "The adw-gtk3 theme could not be found or is installed incorrectly!"
+	exit 1
 fi
 
 # Define the source directory
@@ -37,7 +43,7 @@ fi
 foo=$1
 
 # Execute the command with the user-provided parameter
-sudo python3 colorize.py -f "$foo" -r adw-gtk2/ -t /usr/share/themes/
+python3 colorize.py -f "$foo" -r adw-gtk2/ -t /usr/share/themes/
 
 # Exit message
 if [ $? -eq 0 ]; then
